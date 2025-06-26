@@ -2,8 +2,6 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { type ReactNode } from "react";
-import { Toaster } from "sonner";
-import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
    title: "NewsFlash",
@@ -25,17 +23,7 @@ export default function RootLayout({
                rel="stylesheet"
             />
          </head>
-         <body className="font-body antialiased">
-            <ThemeProvider
-               attribute="class"
-               defaultTheme="system"
-               enableSystem
-               disableTransitionOnChange
-            >
-               {children}
-               <Toaster richColors position="bottom-right" />
-            </ThemeProvider>
-         </body>
+         <body className="font-body antialiased">{children}</body>
       </html>
    );
 }

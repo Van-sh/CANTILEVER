@@ -1,27 +1,26 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 import { Skeleton } from "@/components/ui/skeleton";
-import type { Article } from "@/lib/types";
+import { type ArticleResponse } from "@/services/newsAPI";
 import { ArticleCard } from "./article-card";
 
 interface ArticleListProps {
-   articles: Article[];
-   categoriesMap: Map<string, string>;
-   isLoading: boolean;
-   favorites: Set<string>;
-   onToggleFavorite: (articleId: string) => void;
+   searchTerm: string;
+   selectedCategory: string;
 }
 
-export function ArticleList({
-   articles,
-   categoriesMap,
-   isLoading,
-   favorites,
-   onToggleFavorite,
-}: ArticleListProps) {
-   if (isLoading) {
+export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) {
+   const query = useQuery({
+      queryKey: ["top-headline", searchTerm, selectedCategory],
+      queryFn: async () => await axios.get<ArticleResponse>("/api/news/top-headlines"),
+   });
+
+   if (query.isLoading) {
       return (
-         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 6 }).map((_, index) => (
                <CardSkeleton key={index} />
             ))}
@@ -29,7 +28,9 @@ export function ArticleList({
       );
    }
 
-   if (articles.length === 0) {
+   console.log(query.data)
+
+   if (query.data?.data.articles.length === 0) {
       return (
          <div className="py-10 text-center">
             <h2 className="mb-2 text-2xl font-semibold">No Articles Found</h2>
@@ -39,16 +40,8 @@ export function ArticleList({
    }
 
    return (
-      <div className="animate-fadeIn grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-         {articles.map((article) => (
-            <ArticleCard
-               key={article.id}
-               article={article}
-               isFavorite={favorites.has(article.id)}
-               onToggleFavorite={onToggleFavorite}
-               categoryName={categoriesMap.get(article.category)}
-            />
-         ))}
+      <div className="animate-fade-in grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+         {query.data?.data.articles.map((article, i) => <ArticleCard key={i} article={article} />)}
       </div>
    );
 }
@@ -66,21 +59,3 @@ const CardSkeleton = () => (
       </div>
    </div>
 );
-
-// TODO: Basic fadeIn animation (add to globals.css or tailwind.config if preferred)
-// For simplicity, using a style tag here, but ideally in CSS.
-// Tailwind doesn't have a built-in fadeIn animation class by default.
-// Adding this via CSS is better practice.
-if (typeof window !== "undefined") {
-   const style = document.createElement("style");
-   style.innerHTML = `
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-fadeIn {
-      animation: fadeIn 0.5s ease-out forwards;
-    }
-  `;
-   document.head.appendChild(style);
-}

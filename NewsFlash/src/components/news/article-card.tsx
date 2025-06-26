@@ -26,22 +26,14 @@ import {
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import type { Article } from "@/lib/types";
+import type { Article } from "@/services/newsAPI/";
 import { toast } from "sonner";
 
 interface ArticleCardProps {
    article: Article;
-   isFavorite: boolean;
-   onToggleFavorite: (articleId: string) => void;
-   categoryName?: string;
 }
 
-export function ArticleCard({
-   article,
-   isFavorite,
-   onToggleFavorite,
-   categoryName,
-}: ArticleCardProps) {
+export function ArticleCard({ article }: ArticleCardProps) {
    const [isSummarizing, setIsSummarizing] = useState(false);
    const [summaryResult, setSummaryResult] = useState<SummarizeArticleOutput | null>(null);
    const [showSummaryDialog, setShowSummaryDialog] = useState(false);
@@ -69,10 +61,10 @@ export function ArticleCard({
       <>
          <Card className="flex h-full flex-col overflow-hidden rounded-lg shadow-lg transition-shadow duration-300 hover:shadow-xl">
             <CardHeader>
-               {article.imageUrl && (
+               {article.image && (
                   <div className="relative mb-4 h-48 w-full overflow-hidden rounded-t-lg">
                      <Image
-                        src={article.imageUrl}
+                        src={article.image}
                         alt={article.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -82,35 +74,6 @@ export function ArticleCard({
                      />
                   </div>
                )}
-               <div className="flex items-start justify-between">
-                  {categoryName && (
-                     <Badge variant="secondary" className="mb-2">
-                        {categoryName}
-                     </Badge>
-                  )}
-                  <TooltipProvider>
-                     <Tooltip>
-                        <TooltipTrigger asChild>
-                           <Button
-                              variant="ghost"
-                              size="icon"
-                              className="text-muted-foreground hover:text-primary data-[favorite=true]:text-destructive"
-                              data-favorite={isFavorite}
-                              onClick={() => onToggleFavorite(article.id)}
-                              aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-                           >
-                              <Heart
-                                 fill={isFavorite ? "currentColor" : "none"}
-                                 className="h-5 w-5"
-                              />
-                           </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                           <p>{isFavorite ? "Remove from favorites" : "Add to favorites"}</p>
-                        </TooltipContent>
-                     </Tooltip>
-                  </TooltipProvider>
-               </div>
                <Link
                   href={article.url}
                   target="_blank"
@@ -122,7 +85,7 @@ export function ArticleCard({
                   </CardTitle>
                </Link>
                <CardDescription className="pt-1 text-sm">
-                  <span className="font-medium">{article.source}</span>
+                  <span className="font-medium">{article.source.name}</span>
                   <div className="text-muted-foreground mt-1 flex items-center text-xs">
                      <CalendarDays className="mr-1.5 h-3.5 w-3.5" />
                      {formattedDate}

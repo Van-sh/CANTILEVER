@@ -10,23 +10,24 @@ export const env = createEnv({
       NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
 
       BETTER_AUTH_SECRET: z.string().min(1),
-      
+
       GOOGLE_CLIENT_ID: z.string().min(1),
       GOOGLE_CLIENT_SECRET: z.string().min(1),
-      
+
+      TURSO_AUTH_TOKEN: z.string().min(process.env.NODE_ENV === "production" ? 1 : 0),
       TURSO_DATABASE_URL: z.string().url(),
-      TURSO_AUTH_TOKEN: z.string().min(1),
-      
+
+      GNEWS_API_KEY: z.string().min(1),
+
       GEMINI_API_KEY: z.string().min(1),
    },
    /*
-   * Environment variables available on the client (and server).
-   *
-   * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
-   */
-  client: {
+    * Environment variables available on the client (and server).
+    *
+    * 💡 You'll get type errors if these are not prefixed with NEXT_PUBLIC_.
+    */
+   client: {
       NEXT_PUBLIC_APP_URL: z.string().url(),
-
    },
    /*
     * Specify what values should be validated by your schemas above.
@@ -46,6 +47,8 @@ export const env = createEnv({
 
       TURSO_AUTH_TOKEN: process.env.TURSO_AUTH_TOKEN,
       TURSO_DATABASE_URL: process.env.TURSO_DATABASE_URL,
+
+      GNEWS_API_KEY: process.env.GNEWS_API_KEY,
 
       GEMINI_API_KEY: process.env.GEMINI_API_KEY,
    },

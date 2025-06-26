@@ -3,7 +3,7 @@ import { googleAI } from "@genkit-ai/googleai";
 import { env } from "@/env";
 
 /**
- * Cache the genkit server in
+ * Cache the genkit server in development
  */
 const globalForAi = globalThis as unknown as {
    ai: Genkit | null;

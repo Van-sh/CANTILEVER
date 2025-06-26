@@ -9,10 +9,8 @@ import {
    SelectTrigger,
    SelectValue,
 } from "@/components/ui/select";
-import type { Category } from "@/lib/types";
-
+import { categories } from "@/services/newsAPI/data";
 interface FilterBarProps {
-   categories: Category[];
    searchTerm: string;
    onSearchChange: (term: string) => void;
    selectedCategory: string;
@@ -20,7 +18,6 @@ interface FilterBarProps {
 }
 
 export function FilterBar({
-   categories,
    searchTerm,
    onSearchChange,
    selectedCategory,
@@ -49,8 +46,8 @@ export function FilterBar({
                   <SelectContent>
                      <SelectItem value="all">All Categories</SelectItem>
                      {categories.map((category) => (
-                        <SelectItem key={category.id} value={category.id}>
-                           {category.name}
+                        <SelectItem key={category} value={category}>
+                           {category}
                         </SelectItem>
                      ))}
                   </SelectContent>
