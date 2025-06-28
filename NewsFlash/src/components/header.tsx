@@ -3,7 +3,6 @@
 import { LogIn, LogOut, Newspaper } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -19,7 +18,6 @@ import { signOut, useSession } from "@/lib/auth-client";
 
 export function Header() {
    const { data } = useSession();
-   const router = useRouter();
    const { theme, setTheme } = useTheme();
 
    return (
@@ -107,9 +105,11 @@ export function Header() {
                   </DropdownMenuContent>
                </DropdownMenu>
             ) : (
-               <Button onClick={() => router.push("/sign-in")} variant="outline">
-                  <LogIn className="mr-2 h-4 w-4" />
-                  Login
+               <Button variant="outline" asChild>
+                  <Link href={"/sign-in"}>
+                     <LogIn className="mr-2 h-4 w-4" />
+                     Sign In
+                  </Link>
                </Button>
             )}
          </div>

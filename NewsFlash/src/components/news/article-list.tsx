@@ -43,8 +43,6 @@ export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) 
       );
    }
 
-   console.log(query.data);
-
    if (query.data?.data.articles.length === 0) {
       return (
          <div className="py-10 text-center">

@@ -4,15 +4,19 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { PropsWithChildren, useEffect, useState } from "react";
 
+import BlankScreen from "@/components/blank-screen";
 import { FilterBar } from "@/components/filter-bar";
 import { Header } from "@/components/header";
 import { ArticleList } from "@/components/news/article-list";
+import { useSession } from "@/lib/auth-client";
 import { type Category } from "@/services/newsAPI";
 import { Toaster } from "sonner";
 
 export default function NewsPage() {
+   const session = useSession();
+
    const [searchTerm, setSearchTerm] = useState("");
-   const [selectedCategory, setSelectedCategory] = useState<Category>("");
+   const [selectedCategory, setSelectedCategory] = useState<Category>("general");
 
    // Estimate header height for sticky FilterBar positioning.
    // This is a common CSS trick; a more robust solution might involve ResizeObserver.
@@ -28,15 +32,19 @@ export default function NewsPage() {
       <Providers>
          <div className="bg-background flex min-h-screen flex-col">
             <Header />
-            <main className="container mx-auto grow px-4 py-6">
-               <FilterBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  selectedCategory={selectedCategory}
-                  onCategoryChange={setSelectedCategory}
-               />
-               <ArticleList searchTerm={searchTerm} selectedCategory={selectedCategory} />
-            </main>
+            {session.data ? (
+               <main className="container mx-auto grow px-4 py-6">
+                  <FilterBar
+                     searchTerm={searchTerm}
+                     onSearchChange={setSearchTerm}
+                     selectedCategory={selectedCategory}
+                     onCategoryChange={setSelectedCategory}
+                  />
+                  <ArticleList searchTerm={searchTerm} selectedCategory={selectedCategory} />
+               </main>
+            ) : (
+               <BlankScreen />
+            )}
          </div>
       </Providers>
    );
