@@ -16,6 +16,7 @@ export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) 
    const query = useQuery({
       queryKey: ["top-headline", searchTerm, selectedCategory],
       queryFn: async () => await axios.get<ArticleResponse>("/api/news/top-headlines"),
+      staleTime: 1000 * 60 * 5, // 5 minutes
    });
 
    if (query.isLoading) {
@@ -28,7 +29,7 @@ export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) 
       );
    }
 
-   console.log(query.data)
+   console.log(query.data);
 
    if (query.data?.data.articles.length === 0) {
       return (

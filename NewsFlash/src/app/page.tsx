@@ -6,7 +6,7 @@ import { PropsWithChildren, useEffect, useState } from "react";
 
 import { Header } from "@/components/header";
 import { ArticleList } from "@/components/news/article-list";
-import { FilterBar } from "@/components/news/filter-bar";
+import { FilterBar } from "@/components/filter-bar";
 import { Toaster } from "sonner";
 
 export default function NewsPage() {

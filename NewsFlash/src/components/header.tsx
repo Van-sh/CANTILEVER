@@ -12,12 +12,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "@/lib/auth-client";
 import { LogIn, LogOut, Newspaper } from "lucide-react";
+import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export function Header() {
    const { data } = useSession();
    const router = useRouter();
+   const { theme, setTheme } = useTheme();
 
    return (
       <header className="bg-card sticky top-0 z-40 shadow-xs">
@@ -61,6 +63,37 @@ export function Header() {
                         </div>
                      </DropdownMenuLabel>
                      <DropdownMenuSeparator />
+                     <DropdownMenuItem>
+                        <DropdownMenu>
+                           <DropdownMenuTrigger>Theme</DropdownMenuTrigger>
+                           <DropdownMenuContent className="flex flex-col gap-1" align="end" forceMount loop>
+                              <Button
+                                 variant={theme === "system" ? "default" : "ghost"}
+                                 onClick={() => {
+                                    setTheme("system");
+                                 }}
+                              >
+                                 System
+                              </Button>
+                              <Button
+                                 variant={theme === "dark" ? "default" : "ghost"}
+                                 onClick={() => {
+                                    setTheme("dark");
+                                 }}
+                              >
+                                 Dark
+                              </Button>
+                              <Button
+                                 variant={theme === "light" ? "default" : "ghost"}
+                                 onClick={() => {
+                                    setTheme("light");
+                                 }}
+                              >
+                                 Light
+                              </Button>
+                           </DropdownMenuContent>
+                        </DropdownMenu>
+                     </DropdownMenuItem>
                      <DropdownMenuItem onClick={() => signOut()}>
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
