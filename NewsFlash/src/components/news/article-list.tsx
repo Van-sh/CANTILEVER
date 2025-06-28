@@ -4,18 +4,32 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
 import { Skeleton } from "@/components/ui/skeleton";
-import { type ArticleResponse } from "@/services/newsAPI";
+import type { ArticleResponse, Category } from "@/services/newsAPI";
 import { ArticleCard } from "./article-card";
 
 interface ArticleListProps {
    searchTerm: string;
-   selectedCategory: string;
+   selectedCategory: Category;
+}
+
+function getSearchParams(query: string, category: Category) {
+   const searchParams = new URLSearchParams();
+   if (query) {
+      searchParams.set("q", query);
+   }
+   if (category) {
+      searchParams.set("category", category);
+   }
+   return searchParams.toString();
 }
 
 export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) {
    const query = useQuery({
       queryKey: ["top-headline", searchTerm, selectedCategory],
-      queryFn: async () => await axios.get<ArticleResponse>("/api/news/top-headlines"),
+      queryFn: async () =>
+         await axios.get<ArticleResponse>(
+            `/api/news/top-headlines?${getSearchParams(searchTerm, selectedCategory)}`,
+         ),
       staleTime: 1000 * 60 * 5, // 5 minutes
    });
 

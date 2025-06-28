@@ -40,8 +40,14 @@ const baseURL = "https://gnews.io/api/v4";
 const useMockData = env.NODE_ENV === "development";
 
 const newsAPI = {
-   getTopHeadlines: async () => {
+   getTopHeadlines: async (query: string, category: Category) => {
       const queryParams = new URLSearchParams({ apikey: env.GNEWS_API_KEY, lang: "en" });
+      if (query) {
+         queryParams.set("q", query);
+      }
+      if (category) {
+         queryParams.set("category", category);
+      }
       const response = await axios.get<ArticleResponse>(
          `${baseURL}/top-headlines?${queryParams.toString()}`,
       );

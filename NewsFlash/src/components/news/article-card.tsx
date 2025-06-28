@@ -1,13 +1,12 @@
 "use client";
 
 import { format, parseISO } from "date-fns";
-import { BookOpenText, CalendarDays, FileText, Heart, Loader2 } from "lucide-react";
+import { BookOpenText, CalendarDays, FileText, Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
 import { summarizeArticle, type SummarizeArticleOutput } from "@/ai/flows/summarize-article";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
    Card,
@@ -25,7 +24,6 @@ import {
    DialogTitle,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import type { Article } from "@/services/newsAPI/";
 import { toast } from "sonner";
 

@@ -1,5 +1,10 @@
 "use client";
 
+import { LogIn, LogOut, Newspaper } from "lucide-react";
+import { useTheme } from "next-themes";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -11,10 +16,6 @@ import {
    DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { signOut, useSession } from "@/lib/auth-client";
-import { LogIn, LogOut, Newspaper } from "lucide-react";
-import { useTheme } from "next-themes";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export function Header() {
    const { data } = useSession();
@@ -66,7 +67,12 @@ export function Header() {
                      <DropdownMenuItem>
                         <DropdownMenu>
                            <DropdownMenuTrigger>Theme</DropdownMenuTrigger>
-                           <DropdownMenuContent className="flex flex-col gap-1" align="end" forceMount loop>
+                           <DropdownMenuContent
+                              className="flex flex-col gap-1"
+                              align="end"
+                              forceMount
+                              loop
+                           >
                               <Button
                                  variant={theme === "system" ? "default" : "ghost"}
                                  onClick={() => {

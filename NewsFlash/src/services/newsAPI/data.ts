@@ -1,16 +1,16 @@
 import type { Article, Category } from ".";
 
-export const categories: Category[] = [
-   "general",
-   "business",
-   "entertainment",
-   "health",
-   "nation",
-   "science",
-   "sports",
-   "technology",
-   "world",
-];
+export const categories: Record<Category, string> = {
+   general: "All Categories",
+   business: "Business",
+   entertainment: "Entertainment",
+   health: "Health",
+   nation: "Nation",
+   science: "Science",
+   sports: "Sports",
+   technology: "Technology",
+   world: "World",
+};
 
 export const mockArticles: Record<Category, Article[]> = {
    technology: [
@@ -40,7 +40,8 @@ export const mockArticles: Record<Category, Article[]> = {
       },
       {
          title: "The Rise of Remote Work: A Permanent Shift?",
-         description: "Remote work has seen a surge. Many companies are adapting. Is it permanent? Some say yes, others are unsure. Productivity is key.",
+         description:
+            "Remote work has seen a surge. Many companies are adapting. Is it permanent? Some say yes, others are unsure. Productivity is key.",
          content:
             "Remote work has seen a surge. Many companies are adapting. Is it permanent? Some say yes, others are unsure. Productivity is key.",
          source: { name: "Workplace Weekly", url: "workplaceweekly.com" },

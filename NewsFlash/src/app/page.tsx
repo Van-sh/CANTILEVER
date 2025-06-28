@@ -4,14 +4,15 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { PropsWithChildren, useEffect, useState } from "react";
 
+import { FilterBar } from "@/components/filter-bar";
 import { Header } from "@/components/header";
 import { ArticleList } from "@/components/news/article-list";
-import { FilterBar } from "@/components/filter-bar";
+import { type Category } from "@/services/newsAPI";
 import { Toaster } from "sonner";
 
 export default function NewsPage() {
    const [searchTerm, setSearchTerm] = useState("");
-   const [selectedCategory, setSelectedCategory] = useState<string>("");
+   const [selectedCategory, setSelectedCategory] = useState<Category>("");
 
    // Estimate header height for sticky FilterBar positioning.
    // This is a common CSS trick; a more robust solution might involve ResizeObserver.
