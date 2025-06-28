@@ -6,6 +6,7 @@ import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ArticleResponse, Category } from "@/services/newsAPI";
 import { ArticleCard } from "./article-card";
+import BlankScreen from "../blank-screen";
 
 interface ArticleListProps {
    searchTerm: string;
@@ -41,6 +42,10 @@ export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) 
             ))}
          </div>
       );
+   }
+
+   if (query.data?.data.error !== undefined) {
+      return <BlankScreen message={query.data?.data.error} onButtonClick={() => query.refetch} />;
    }
 
    if (query.data?.data.articles.length === 0) {

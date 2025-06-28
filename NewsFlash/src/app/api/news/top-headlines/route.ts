@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 
 import { auth } from "@/lib/auth";
-import newsAPI from "@/services/newsAPI";
+import newsAPI, { type Category } from "@/services/newsAPI";
 import { NextResponse, type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
    const topHeadlines = await newsAPI.getTopHeadlines(
       searchParams.get("q"),
-      searchParams.get("category"),
+      searchParams.get("category") as Category | null,
    );
    return new NextResponse(JSON.stringify(topHeadlines), { status: 200 });
 }

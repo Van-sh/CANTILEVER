@@ -4,7 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "next-themes";
 import { PropsWithChildren, useEffect, useState } from "react";
 
-import BlankScreen from "@/components/blank-screen";
+import AuthErrorScreen from "@/components/auth-error-screen";
 import { FilterBar } from "@/components/filter-bar";
 import { Header } from "@/components/header";
 import { ArticleList } from "@/components/news/article-list";
@@ -43,7 +43,7 @@ export default function NewsPage() {
                   <ArticleList searchTerm={searchTerm} selectedCategory={selectedCategory} />
                </main>
             ) : (
-               <BlankScreen />
+               <AuthErrorScreen />
             )}
          </div>
       </Providers>

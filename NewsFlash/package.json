@@ -3,19 +3,19 @@
    "version": "0.1.0",
    "private": true,
    "scripts": {
-      "auth:generate": "pnpm dlx @better-auth/cli@latest generate --y --output src/db/schema/auth.ts && prettier --write ./src/db/schema/auth.ts",
+      "dev": "next dev --turbopack",
       "build": "next build",
+      "start": "next start",
+      "lint": "next lint",
+      "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,mjs,json}\"",
+      "typecheck": "tsc --noEmit",
       "db:generate": "drizzle-kit generate",
       "db:migrate": "drizzle-kit migrate",
       "db:push": "drizzle-kit push",
       "db:studio": "drizzle-kit studio",
-      "dev": "next dev --turbopack",
-      "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,mjs,json}\"",
       "genkit:dev": "genkit start -- tsx src/ai/dev.ts",
       "genkit:watch": "genkit start -- tsx --watch src/ai/dev.ts",
-      "lint": "next lint",
-      "start": "next start",
-      "typecheck": "tsc --noEmit"
+      "auth:generate": "pnpm dlx @better-auth/cli@latest generate --y --output src/db/schema/auth.ts && prettier --write ./src/db/schema/auth.ts"
    },
    "dependencies": {
       "@genkit-ai/googleai": "^1.12.0",
