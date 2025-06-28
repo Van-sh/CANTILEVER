@@ -1,6 +1,6 @@
 # NewsFlash 🚀
 
-NewsFlash is a modern news aggregator web application built with Next.js in Firebase Studio. It allows users to browse articles from various sources, filter them by category, search for specific topics, and even get AI-powered summaries of articles.
+NewsFlash is a modern news aggregator web application built with Next.js. It allows users to browse articles from various sources, filter them by category, search for specific topics, and even get AI-powered summaries of articles.
 
 ## ✨ Features
 
