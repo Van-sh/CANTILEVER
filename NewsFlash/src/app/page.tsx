@@ -1,8 +1,8 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { ThemeProvider } from "next-themes";
+import { PropsWithChildren, useEffect, useState } from "react";
 
 import { Header } from "@/components/header";
 import { ArticleList } from "@/components/news/article-list";
@@ -24,20 +24,30 @@ export default function NewsPage() {
    }, []);
 
    return (
+      <Providers>
+         <div className="bg-background flex min-h-screen flex-col">
+            <Header />
+            <main className="container mx-auto grow px-4 py-6">
+               <FilterBar
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  selectedCategory={selectedCategory}
+                  onCategoryChange={setSelectedCategory}
+               />
+               <ArticleList searchTerm={searchTerm} selectedCategory={selectedCategory} />
+            </main>
+         </div>
+      </Providers>
+   );
+}
+
+type ProvidersProps = PropsWithChildren;
+
+function Providers({ children }: ProvidersProps) {
+   return (
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
          <QueryClientProvider client={new QueryClient()}>
-            <div className="bg-background flex min-h-screen flex-col">
-               <Header />
-               <main className="container mx-auto grow px-4 py-6">
-                  <FilterBar
-                     searchTerm={searchTerm}
-                     onSearchChange={setSearchTerm}
-                     selectedCategory={selectedCategory}
-                     onCategoryChange={setSelectedCategory}
-                  />
-                  <ArticleList searchTerm={searchTerm} selectedCategory={selectedCategory} />
-               </main>
-            </div>
+            {children}
             <Toaster />
          </QueryClientProvider>
       </ThemeProvider>
