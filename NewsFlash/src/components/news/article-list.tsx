@@ -6,15 +6,17 @@ import axios from "axios";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { ArticleResponse, Category } from "@/services/newsAPI";
 import { ArticleCard } from "./article-card";
-import BlankScreen from "../blank-screen";
+import BlankScreen from "@/components/blank-screen";
+import { JoinedPagination } from "@/components/ui/joined-pagination";
+import { useMemo, useState } from "react";
 
 interface ArticleListProps {
    searchTerm: string;
    selectedCategory: Category;
 }
 
-function getSearchParams(query: string, category: Category) {
-   const searchParams = new URLSearchParams();
+function getSearchParams(query: string, category: Category, page: number) {
+   const searchParams = new URLSearchParams({ page: page.toString() });
    if (query) {
       searchParams.set("q", query);
    }
@@ -25,14 +27,28 @@ function getSearchParams(query: string, category: Category) {
 }
 
 export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) {
+   const [page, setPage] = useState(1);
+
    const query = useQuery({
-      queryKey: ["top-headline", searchTerm, selectedCategory],
+      queryKey: ["top-headline", searchTerm, selectedCategory, page],
       queryFn: async () =>
          await axios.get<ArticleResponse>(
-            `/api/news/top-headlines?${getSearchParams(searchTerm, selectedCategory)}`,
+            `/api/news/top-headlines?${getSearchParams(searchTerm, selectedCategory, page)}`,
          ),
       staleTime: 1000 * 60 * 5, // 5 minutes
    });
+
+   const totalPages = useMemo(() => {
+      if (query.data?.data.totalArticles) {
+         return query.data?.data.totalArticles / 10;
+      }
+      return 0;
+   }, [query.data?.data.totalArticles]);
+
+   function handlePageChange(page: number) {
+      setPage(page);
+      scrollTo({ top: 0, behavior: "smooth" });
+   }
 
    if (query.isLoading) {
       return (
@@ -58,8 +74,18 @@ export function ArticleList({ searchTerm, selectedCategory }: ArticleListProps) 
    }
 
    return (
-      <div className="animate-fade-in grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-         {query.data?.data.articles.map((article, i) => <ArticleCard key={i} article={article} />)}
+      <div className="flex flex-col items-center gap-6">
+         <div className="animate-fade-in grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {query.data?.data.articles.map((article, i) => (
+               <ArticleCard key={i} article={article} />
+            ))}
+         </div>
+         <JoinedPagination
+            currentPage={page}
+            totalPages={totalPages}
+            paginationItemsToDisplay={5}
+            onPageChange={handlePageChange}
+         />
       </div>
    );
 }

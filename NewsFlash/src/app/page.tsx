@@ -1,7 +1,6 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "next-themes";
 import { PropsWithChildren, useEffect, useState } from "react";
 
 import AuthErrorScreen from "@/components/auth-error-screen";
@@ -10,7 +9,6 @@ import { Header } from "@/components/header";
 import { ArticleList } from "@/components/news/article-list";
 import { useSession } from "@/lib/auth-client";
 import { type Category } from "@/services/newsAPI";
-import { Toaster } from "sonner";
 
 export default function NewsPage() {
    const session = useSession();
@@ -29,7 +27,7 @@ export default function NewsPage() {
    }, []);
 
    return (
-      <Providers>
+      <QueryClientProvider client={new QueryClient()}>
          <div className="bg-background flex min-h-screen flex-col">
             <Header />
             {session.data ? (
@@ -46,19 +44,6 @@ export default function NewsPage() {
                <AuthErrorScreen />
             )}
          </div>
-      </Providers>
-   );
-}
-
-type ProvidersProps = PropsWithChildren;
-
-function Providers({ children }: ProvidersProps) {
-   return (
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-         <QueryClientProvider client={new QueryClient()}>
-            {children}
-            <Toaster />
-         </QueryClientProvider>
-      </ThemeProvider>
+      </QueryClientProvider>
    );
 }

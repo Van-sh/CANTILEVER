@@ -150,7 +150,13 @@ export default function SignIn() {
             </div>
          </CardContent>
          <CardFooter>
-            <div className="flex w-full justify-center border-t py-4">
+            <div className="flex w-full flex-col justify-center gap-2 border-t py-4">
+               <p className="text-center text-xs text-neutral-500">
+                  Don't have an Account?{" "}
+                  <Link href="/sign-up" className="underline">
+                     <span className="cursor-pointer dark:text-white/70">Sign Up</span>
+                  </Link>
+               </p>
                <p className="text-center text-xs text-neutral-500">
                   built with{" "}
                   <Link href="https://better-auth.com" className="underline" target="_blank">
