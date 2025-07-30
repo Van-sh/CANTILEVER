@@ -1,7 +1,7 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import AuthErrorScreen from "@/components/auth-error-screen";
 import { FilterBar } from "@/components/filter-bar";

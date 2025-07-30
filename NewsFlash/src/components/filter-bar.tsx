@@ -46,8 +46,12 @@ export function FilterBar({
    const categoryList: ReactNode[] = [];
 
    for (const category in categories) {
-      // @ts-ignore
-      categoryList.push(<SelectItem value={category}>{categories[category]}</SelectItem>);
+      categoryList.push(
+         <SelectItem key={category} value={category}>
+            {/* @ts-ignore */}
+            {categories[category]}
+         </SelectItem>,
+      );
    }
 
    return (
